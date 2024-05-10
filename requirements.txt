@@ -1,0 +1,10 @@
+﻿causalml
+matplotlib
+numpy
+pandas
+plotly
+pymc_marketing
+scikit-learn
+ydata-profiling
+ipykernel
+ipywidgets
