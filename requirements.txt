@@ -1,8 +1,10 @@
 ﻿causalml
+factor_analyzer
 matplotlib
 numpy
 pandas
 plotly
+streamlit
 pymc_marketing
 scikit-learn
 ydata-profiling

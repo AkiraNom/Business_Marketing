@@ -1,2 +1,5 @@
 /.devcontainer
-CLV_model.png
+/img/CLV_model.png
+Factor-analysis/app.py
+Factor-analysis/utils.py
+__pycache__
