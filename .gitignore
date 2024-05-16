@@ -1,5 +1,4 @@
 /.devcontainer
 /img/CLV_model.png
-Factor-analysis/app.py
-Factor-analysis/utils.py
 __pycache__
+/Factor-analysis/.streamlit
