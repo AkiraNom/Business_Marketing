@@ -124,8 +124,8 @@ def adequacy_test(df):
                     <div class=description>
                         Bartlett's test result: <br>
                         <ul>
-                            <li>chi_square_value : &nbsp;{chi_square_value:.2f}, <br>
-                            <li>p_value :&nbsp;&nbsp;&nbsp;&nbsp;{p_value:.4f}
+                            <li>chi_square_value : &nbsp;<code>{chi_square_value:.2f}</code>, <br>
+                            <li>p_value :&nbsp;&nbsp;&nbsp;&nbsp;<code>{p_value:.4f}</code>
                         </ul>
                     </div>
                 """,
@@ -142,9 +142,11 @@ def adequacy_test(df):
     st.write("")
 
     if (p_value < 0.05) & (kmo_model > 0.6):
+        st.session_state["adequacy_test"] = True
         st.success("The data passes the adequacy tests for factor anlysis", icon="✅")
 
     else:
+        st.session_state["adequacy_test"]=False
         st.warning("Factor Analysis may not be appropriate for this dataset!")
 
 def fit_factor_analyzer(df, n_factors: int,rotation=None):

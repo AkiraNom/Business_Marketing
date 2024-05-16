@@ -25,6 +25,9 @@ from utils import (
 
 df = sidebar()
 
+st.session_state.file = True
+df = pd.read_csv('./data/bfi.csv',index_col=0)
+
 ###Main Window###
 
 st.title("Factor Analysis")
@@ -116,7 +119,15 @@ st.write("")
 
 adequacy_test(df)
 
-n_factors_description = "select the number of factors to be equal to the number of eigenvalues greater than or equal to one"
+
+###4. select factors###
+help_description = "If a dataset does not satisfy underlying assumptions to perform a factor analysis, obtained results may not be reliable. See more details [here](https://www.publichealth.columbia.edu/research/population-health-methods/exploratory-factor-analysis)"
+if st.session_state["adequacy_test"] or st.checkbox("Continue performing a factor analysis?",help=help_description):
+    pass
+else:
+    st.stop()
+
+n_factors_description = "select the number of factors to be equal to the number of eigenvalues greater than or equal to one[]"
 st.header("4. Select the number of factors", divider='grey',help=n_factors_description)
 fa = fit_factor_analyzer(df, n_factors=25)
 ev, v = fa.get_eigenvalues()
@@ -141,7 +152,7 @@ with cols[1]:
         n_factors = n_factors_scree
 
 
-###4. Factor Analysis###
+###5. Factor Analysis###
 st.header("5. Factor Analysis",divider="grey")
 st.write("")
 
@@ -158,7 +169,7 @@ high_loading_factors(df_factor)
 st.subheader("Summary Table")
 st.dataframe(factor_analysis_summary(fa,cols))
 
-###5. Inspect Factors###
+###6. Inspect Factors###
 st.header("6. Inspect Factors", divider="grey")
 st.write("")
 cols = st.columns(3)
