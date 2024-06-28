@@ -20,7 +20,6 @@ from utils import (
     factor_loading_plot
 )
 
-
 ###Side Bar###
 
 df = sidebar()
@@ -121,8 +120,8 @@ adequacy_test(df)
 
 
 ###4. select factors###
-help_description = "If a dataset does not satisfy underlying assumptions to perform a factor analysis, obtained results may not be reliable. See more details [here](https://www.publichealth.columbia.edu/research/population-health-methods/exploratory-factor-analysis)"
-if st.session_state["adequacy_test"] or st.checkbox("Continue performing a factor analysis?",help=help_description):
+help_description_adequacy_test = "If a dataset does not satisfy underlying assumptions to perform a factor analysis, obtained results may not be reliable. See more details [here](https://www.publichealth.columbia.edu/research/population-health-methods/exploratory-factor-analysis)"
+if st.session_state["adequacy_test"] or st.checkbox("Continue performing a factor analysis?",help=help_description_adequacy_test):
     pass
 else:
     st.stop()
@@ -168,6 +167,8 @@ high_loading_factors(df_factor)
 
 st.subheader("Summary Table")
 st.dataframe(factor_analysis_summary(fa,cols))
+
+st.write()
 
 ###6. Inspect Factors###
 st.header("6. Inspect Factors", divider="grey")
