@@ -6,22 +6,26 @@ import plotly.express as px
 import streamlit as st
 
 
+
 @st.cache_data
-def load_file(uploaded_file):
-    # try:
-    #     df = pd.read_csv(uploaded_file, index_col=0)
-    # except
-    return pd.read_csv(uploaded_file,index_col=0)
+def load_file(file_path):
+    try:
+        df = pd.read_csv(file_path, index_col=0)
+        return df
+    except Exception as e:
+        st.session_state["file"] = False
+        st.error(f"Error loading file: {e}")
+        return None
 
 def sidebar():
-
-    if "file" not in st.session_state:
-        # control on/off of displaying elements after the title section
-        st.session_state["file"] = False
 
     with st.sidebar:
         st.title("Factor Analysis")
         uploaded_file = st.file_uploader(label="",type='csv')
+
+        if uploaded_file is not None:
+            st.session_state["file"] = True
+            st.session_state["file_path"] = uploaded_file
 
         st.divider()
         st.write("Test with a sample data")
@@ -56,16 +60,8 @@ def sidebar():
 
             st.write("Click the button to load a sample dataset")
             if st.button("Sample data"):
-                uploaded_file = "./data/bfi.csv"
-
-        if uploaded_file is not None:
-            st.session_state["file"] = True
-            return load_file(uploaded_file)
-
-        else:
-            pass
-
-
+                st.session_state["file"] = True
+                st.session_state["file_path"] = "./data/bfi.csv"
 
 def check_nulls(df):
     n_nulls = df.isnull().sum().sum()
@@ -105,7 +101,7 @@ def preprocessing(df: pd.DataFrame, columns: list):
                         </div>
                     """,
                     unsafe_allow_html=True)
-    st.markdown("")
+    st.markdown("###")
 
     st.markdown("**Check data table**")
 
@@ -177,14 +173,14 @@ def determine_n_factors(eigenvalue):
 
 def highlight_cells(val,min=0.5):
 
-    color = "grey" if val > min else ''
+    color = "grey" if abs(val) > min else ''
     return "background-color: {}".format(color)
 
 def extract_high_loadings_category(df, min: int =0.5):
     data = {}
 
     for col in df.columns:
-        data[col] = df[df.loc[:,col] > min][col].index.tolist()
+        data[col] = df[abs(df.loc[:,col]) > min][col].index.tolist()
 
     return data
 

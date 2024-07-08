@@ -1,0 +1,3 @@
+BG/NBD (Beta-Geometric/Negative Binomial Distribution): Suitable for non-contractual settings where customers can come and go.
+Pareto/NBD (Pareto/NBD): Another model for non-contractual settings, but with different assumptions.
+BG/BB (Beta-Geometric/Beta-Binomial): Used for contractual settings.

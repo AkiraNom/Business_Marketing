@@ -1,13 +1,9 @@
 import streamlit as st
-
-from factor_analyzer import FactorAnalyzer
-from factor_analyzer.factor_analyzer import calculate_bartlett_sphericity
-from factor_analyzer.factor_analyzer import calculate_kmo
 import pandas as pd
-import plotly.express as px
 
 from utils import (
     sidebar,
+    load_file,
     check_nulls,
     preprocessing,
     adequacy_test,
@@ -20,30 +16,35 @@ from utils import (
     factor_loading_plot
 )
 
+if "file_path" not in st.session_state:
+    st.session_state["file_path"] = None
+
+if "file" not in st.session_state:
+    # control on/off of displaying elements after the title section
+    st.session_state["file"] = False
+
 ###Side Bar###
 
-df = sidebar()
-
-st.session_state.file = True
-df = pd.read_csv('./data/bfi.csv',index_col=0)
+sidebar()
 
 ###Main Window###
 
 st.title("Factor Analysis")
 st.markdown("""Factor analysis is a sophisticated statistical method aimed at reducing a large number of variables into a smaller set of factors. This technique is valuable for extracting the maximum common variance from all variables, transforming them into a single score for further analysis.\n\n **Reference** : [Comprehensive Guide to Factor Analysis](https://www.statisticssolutions.com/free-resources/directory-of-statistical-analyses/factor-analysis/)""")
 
+
 if st.session_state["file"]:
     pass
 
 else:
-    st.write("")
-    st.write("")
-    st.write("")
+    st.write("##")
     st.warning("Please select a file to analyze from the sidemenu")
     st.stop()
 
 ###1. Data Table###
 st.header('1. Data Table')
+
+df=load_file(st.session_state["file_path"])
 
 with st.expander("View DataFrame"):
     st.dataframe(df)
@@ -153,7 +154,7 @@ with cols[1]:
 
 ###5. Factor Analysis###
 st.header("5. Factor Analysis",divider="grey")
-st.write("")
+st.write("####")
 
 fa = fit_factor_analyzer(df, n_factors=n_factors,rotation='varimax')
 
@@ -172,7 +173,7 @@ st.write()
 
 ###6. Inspect Factors###
 st.header("6. Inspect Factors", divider="grey")
-st.write("")
+st.write("####")
 cols = st.columns(3)
 with cols[0]:
     X = st.selectbox("Select X-value", df_factor.columns.tolist(), index=0)
